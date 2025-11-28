@@ -1,0 +1,63 @@
+{{/*
+Copyright (c) 2025 Fraunhofer Institute for Energy Economics and Energy System Technology (IEE)
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0
+
+SPDX-License-Identifier: Apache-2.0
+
+Contributors:
+     Fraunhofer IEE - initial API and implementation
+*/}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "common.name" . }}
+  namespace: {{ include "common.namespace" . | quote }}
+  labels: {{- include "common.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{- include "common.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "common.labels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.registry.image.pullSecret }}
+      containers:
+        - name: connector-registry
+          image: {{ .Values.registry.image.repository }}:{{ .Values.registry.image.tag }}
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              value: {{ .Values.registry.service.port | quote }}
+            - name: KEYCLOAK_URL
+              value: {{ .Values.registry.auth.url | quote }}
+            - name: KEYCLOAK_REALM
+              value: {{ .Values.registry.auth.realm | quote }}
+            - name: KEYCLOAK_CLIENT_ID
+              value: {{ .Values.registry.auth.clientId | quote }}
+            - name: KEYCLOAK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.registry.auth.existingSecret }}
+                  key: client-secret
+            - name: MONGO_HOST
+              value: {{ ternary .Values.registry.database.host (printf "%s-mongodb" .Release.Name) .Values.registry.database.external }}
+            - name: MONGO_PORT
+              value: {{ .Values.registry.database.port | quote }}
+            - name: MONGO_USER
+              value: {{ .Values.registry.database.username | quote }}
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.registry.database.existingSecret }}
+                  key: {{ index .Values.global.secrets.mongo.keys 1 }}
+            - name: MONGO_DB_NAME
+              value: {{ .Values.registry.database.dbName | quote }}
+            - name: REGISTRY_UNREGISTER_TIMEOUT
+              value: {{ .Values.registry.unregisterTimeout | quote }}
+            

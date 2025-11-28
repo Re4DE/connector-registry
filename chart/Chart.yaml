@@ -1,0 +1,30 @@
+#
+#  Copyright (c) 2025 Fraunhofer Institute for Energy Economics and Energy System Technology (IEE)
+#
+#  This program and the accompanying materials are made available under the
+#  terms of the Apache License, Version 2.0 which is available at
+#  https://www.apache.org/licenses/LICENSE-2.0
+#
+#  SPDX-License-Identifier: Apache-2.0
+#
+#  Contributors:
+#       Fraunhofer IEE - initial API and implementation
+#
+#
+
+apiVersion: v2
+name: connector-registry
+description: |
+  A Helm chart for the connector registry. The registry deployment consists of the service itself and a MongoDB.
+  The MongoDB deployment can be deactivated if a running instance is already available.
+  The registry expects a running and configured instance of an identity provider like Keycloak.
+
+type: application
+version: 0.3.0
+appVersion: 0.3.0
+
+dependencies:
+  - name: mongodb
+    version: 15.6.26
+    repository: oci://registry-1.docker.io/bitnamicharts
+    condition: install.mongodb

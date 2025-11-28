@@ -1,0 +1,72 @@
+#
+#  Copyright (c) 2025 Fraunhofer Institute for Energy Economics and Energy System Technology (IEE)
+#
+#  This program and the accompanying materials are made available under the
+#  terms of the Apache License, Version 2.0 which is available at
+#  https://www.apache.org/licenses/LICENSE-2.0
+#
+#  SPDX-License-Identifier: Apache-2.0
+#
+#  Contributors:
+#       Fraunhofer IEE - initial API and implementation
+#
+#
+
+install:
+  mongodb: true
+
+global:
+  defaultStorageClass: harvester
+  secrets:
+    mongo:
+      secretName: mongodb
+      keys:
+        - mongodb-root-password
+        - mongodb-passwords
+
+namespaceOverride: ""
+
+registry:
+  unregisterTimeout: 60
+  image:
+    repository: container-registry.gitlab.cc-asp.fraunhofer.de/future-energy-lab-testfeld/connector-registry
+    tag: 0.3.0
+    pullSecret: gitlab
+  service:
+    port: 3000
+  ingress:
+    enabled: true
+    host: registry-dena.services.iee.fraunhofer.de
+    path: /api
+  auth:
+    url: https://auth-dena.services.iee.fraunhofer.de
+    realm: dena-testfeld
+    clientId: connector-registry
+    existingSecret: registry-secret
+  database:
+    external: false
+    host: my.host
+    port: 27017
+    username: connector-registry
+    dbName: registry
+    existingSecret: mongodb
+
+mongodb:
+  image:
+    repository: bitnamilegacy/mongodb
+  useStatefulSet: true
+  replicaSetHostnames: false
+  auth:
+    existingSecret: mongodb
+    usernames:
+      - connector-registry
+    databases: 
+      - registry
+  replicaCount: 1
+  pdb:
+    create: false
+  persistence:
+    name: mongo-vol
+    resourcePolicy: keep
+  arbiter:
+    enabled: false
