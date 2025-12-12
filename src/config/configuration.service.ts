@@ -31,20 +31,8 @@ export class ConfigurationService {
     return this.configService.get('apiPrefix');
   }
 
-  get keycloakServerUrl(): string {
-    return this.configService.get('auth.serverUrl');
-  }
-
-  get keycloakRealm(): string {
-    return this.configService.get('auth.realm');
-  }
-
-  get keycloakClientId(): string {
-    return this.configService.get('auth.clientId');
-  }
-
-  get keycloakClientSecret(): string {
-    return this.configService.get('auth.clientSecret');
+  get apiKey(): string {
+    return this.configService.get('auth.apiKey');
   }
 
   get mongoUri(): string {

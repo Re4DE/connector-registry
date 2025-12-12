@@ -77,9 +77,8 @@ export class UnregisterService
           if (isNotReachable || isUnexpectedStatus) {
             this.logger.warn(
               `Remove connector ${con.name} because it was not reachable`,
-              err,
             );
-            await this.registryService.unregisterConnector(con.id);
+            await this.registryService.unregisterConnector(con.participantId);
           } else {
             // Expected statuscode 405
             this.logger.log(`Connector ${con.name} is reachable`, err);
@@ -93,7 +92,9 @@ export class UnregisterService
   }
 
   public onApplicationShutdown(signal?: string): void {
-    this.schedulerRegistry.deleteInterval(this.intervalName);
-    this.logger.log(`Stop connector watchdog after ${signal}`);
+    if (this.schedulerRegistry.getIntervals().length > 0) {
+      this.schedulerRegistry.deleteInterval(this.intervalName);
+      this.logger.log(`Stop connector watchdog after ${signal}`);
+    }
   }
 }

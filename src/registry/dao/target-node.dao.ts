@@ -22,10 +22,11 @@ export class TargetNode {
   public readonly name: string;
 
   @ApiProperty({
-    example: 'my-con-01-es',
-    description: 'The unique id of the connector (participant id)',
+    example: 'did:web:my-con.dataspace.de:myself',
+    description:
+      'The participant id of the requesting connector, often this is a DIDWeb',
   })
-  public readonly id: string;
+  public readonly participantId: string;
 
   @ApiProperty({
     example: 'https://my-con.net/api/v1/dsp',

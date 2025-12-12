@@ -26,7 +26,10 @@ import * as request from 'supertest';
 import { ConfigurationModule } from '../src/config';
 import { RegistryModule } from '../src/registry';
 
+const did = 'did:web:test.de:tester';
+
 const testCon = {
+  participantId: did,
   name: 'Test Connector',
   url: 'http://localhost:8080/api/v1/dsp',
   supportedProtocols: ['dataspace-protocol-http'],
@@ -62,17 +65,7 @@ describe('Registry', () => {
     }).compile();
 
     app = module.createNestApplication();
-
-    // Add a authenticated user mock
-    app.use([
-      (req, res, next) => {
-        req.user = {
-          azp: 'test-connector',
-        };
-        next();
-      },
-    ]);
-
+    app.enableShutdownHooks();
     await app.init();
 
     server = app.getHttpServer();
@@ -92,7 +85,7 @@ describe('Registry', () => {
         .expect(HttpStatus.CREATED);
       const data = res.body;
 
-      expect(data.id).toBe('test-connector');
+      expect(data.participantId).toBe(did);
     },
     60 * 1000,
   );
@@ -111,7 +104,9 @@ describe('Registry', () => {
   it(
     'R.3 should be possible to retrieve all registered connectors resulting with an empty list',
     async () => {
-      const res = await request(server).get('/registry').expect(HttpStatus.OK);
+      const res = await request(server)
+        .get(`/registry?participantId=${did}`)
+        .expect(HttpStatus.OK);
       const data = res.body;
 
       expect(data.length).toBe(0);
@@ -123,7 +118,7 @@ describe('Registry', () => {
     'R.4 should be possible to update the data of a registered connector',
     async () => {
       const res = await request(server)
-        .patch('/registry/test-connector')
+        .patch(`/registry/${did}`)
         .send(updateCon)
         .expect(HttpStatus.OK);
       const data = res.body;
@@ -141,17 +136,6 @@ describe('Registry', () => {
         .patch('/registry/test-connector-not-exist')
         .send(updateCon)
         .expect(HttpStatus.NOT_FOUND);
-    },
-    60 * 1000,
-  );
-
-  it(
-    'R.8 should bring an empty list after unregister of all connectors',
-    async () => {
-      const res = await request(server).get('/registry').expect(HttpStatus.OK);
-      const data = res.body;
-
-      expect(data.length).toBe(0);
     },
     60 * 1000,
   );

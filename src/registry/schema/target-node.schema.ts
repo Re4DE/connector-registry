@@ -16,11 +16,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class TargetNode {
+  @Prop({ required: true, unique: true })
+  public readonly participantId: string;
+
   @Prop({ required: true })
   public readonly name: string;
-
-  @Prop({ required: true, unique: true })
-  public readonly id: string;
 
   @Prop({ required: true })
   public readonly url: string;

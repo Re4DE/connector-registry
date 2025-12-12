@@ -17,10 +17,7 @@ export default () => ({
   port: parseInt(process.env.PORT) || 3000,
   apiPrefix: process.env.API_PREFIX || 'api',
   auth: {
-    serverUrl: process.env.KEYCLOAK_URL || 'http://localhost:8080',
-    realm: process.env.KEYCLOAK_REALM || 'ds-test',
-    clientId: process.env.KEYCLOAK_CLIENT_ID || 'connector-registry',
-    clientSecret: process.env.KEYCLOAK_CLIENT_SECRET || 'devpass',
+    apiKey: process.env.API_KEY || 'devpass',
   },
   database: {
     host: process.env.MONGO_HOST || 'localhost',
@@ -30,6 +27,6 @@ export default () => ({
     dbName: process.env.MONGO_DB_NAME || 'registry',
   },
   registry: {
-    unregisterTimeout: process.env.REGISTRY_UNREGISTER_TIMEOUT || 30,
+    unregisterTimeout: process.env.REGISTRY_UNREGISTER_TIMEOUT || 60,
   },
 });

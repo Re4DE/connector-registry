@@ -15,30 +15,18 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthGuard } from '@nestjs/passport';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
-import {
-  AuthGuard,
-  KeycloakConnectModule,
-  RoleGuard,
-} from 'nest-keycloak-connect';
-
 import { ConfigurationModule, ConfigurationService } from './config';
 import { RegistryModule } from './registry';
+import { AuthModule } from './auth';
 
 @Module({
   imports: [
+    AuthModule,
     ConfigurationModule,
-    KeycloakConnectModule.registerAsync({
-      useFactory: async (conf: ConfigurationService) => ({
-        authServerUrl: conf.keycloakServerUrl,
-        realm: conf.keycloakRealm,
-        clientId: conf.keycloakClientId,
-        secret: conf.keycloakClientSecret,
-      }),
-      inject: [ConfigurationService],
-    }),
     MongooseModule.forRootAsync({
       imports: [],
       useFactory: async (conf: ConfigurationService) => ({
@@ -57,8 +45,7 @@ import { RegistryModule } from './registry';
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
-    { provide: APP_GUARD, useClass: AuthGuard },
-    { provide: APP_GUARD, useClass: RoleGuard },
+    { provide: APP_GUARD, useClass: AuthGuard('api-key') },
   ],
 })
 export class AppModule {}

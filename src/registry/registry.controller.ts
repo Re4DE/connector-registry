@@ -21,15 +21,22 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-
-import { AuthenticatedUser } from 'nest-keycloak-connect';
+import {
+  ApiBody,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { TargetNode } from './dao';
 import { RegisterConnectorDto, UpdateConnectorDto } from './dto';
 import { RegistryService } from './registry.service';
 
+@ApiSecurity('api-key')
 @ApiTags('registry')
 @Controller('registry')
 export class RegistryController {
@@ -55,17 +62,21 @@ export class RegistryController {
   })
   @Post()
   public async register(
-    @AuthenticatedUser() user: any,
     @Body() dto: RegisterConnectorDto,
   ): Promise<TargetNode> {
-    const doc = await this.registryService.getConnector(user.azp);
+    const doc = await this.registryService.getConnector(dto.participantId);
     if (doc) {
       throw new BadRequestException('Connector already registered');
     }
 
-    return this.registryService.registerConnector(user.azp, dto);
+    return this.registryService.registerConnector(dto);
   }
 
+  @ApiQuery({
+    name: 'participantId',
+    description:
+      'The participant id of the requesting connector, often this is a DIDWeb. If empty return all connectors',
+  })
   @ApiResponse({
     status: 200,
     type: [TargetNode],
@@ -77,13 +88,20 @@ export class RegistryController {
     description: 'Unauthorized',
   })
   @Get()
-  public async findAll(@AuthenticatedUser() user: any): Promise<TargetNode[]> {
-    return this.registryService.getAllConnectors(user.azp);
+  public async findAll(
+    @Query('participantId') participantId: string = '',
+  ): Promise<TargetNode[]> {
+    return this.registryService.getAllConnectors(participantId);
   }
 
   @ApiBody({
     type: UpdateConnectorDto,
     description: 'The values that should be updated',
+  })
+  @ApiParam({
+    name: 'participantId',
+    description:
+      'The participant id of the connector to update, often this is a DIDWeb',
   })
   @ApiResponse({
     status: 200,
@@ -99,16 +117,16 @@ export class RegistryController {
     status: 404,
     description: 'Connector not found or not registered',
   })
-  @Patch(':id')
+  @Patch(':participantId')
   public async updateOne(
-    @Param('id') id: string,
+    @Param('participantId') participantId: string,
     @Body() dto: UpdateConnectorDto,
   ): Promise<TargetNode> {
-    const doc = await this.registryService.getConnector(id);
+    const doc = await this.registryService.getConnector(participantId);
     if (!doc) {
       throw new NotFoundException('Connector is not registered');
     }
 
-    return this.registryService.updateConnector(id, dto);
+    return this.registryService.updateConnector(participantId, dto);
   }
 }

@@ -18,6 +18,15 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 export class RegisterConnectorDto {
   @ApiProperty({
+    example: 'did:web:my-con.dataspace.de:myself',
+    required: true,
+    description: 'The participant id of the connector, this is mostly a DIDWeb',
+  })
+  @IsNotEmpty()
+  @IsString()
+  public readonly participantId: string;
+
+  @ApiProperty({
     example: 'My-Connector',
     required: true,
     description: 'A readable name of the connector',
