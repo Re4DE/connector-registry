@@ -22,7 +22,7 @@ jobs:
           npm ci
       - name: Test
         run: |
-          npm lint
+          npm run lint
           npm test
       - name: Docker Build
         run: docker build -t $IMAGE_NAME:SNAPSHOT .
