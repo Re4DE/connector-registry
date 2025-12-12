@@ -13,7 +13,7 @@ The registry also automatically unregisters all unreachable connectors after a c
 We use semantic versioning and add the Eclipse Dataspace Components (EDC) version as a label to indicate compatibility. 
 For example, version `1.0.0-edc0.14.0` means that version `1.0.0` of the connector registry is compatible with all EDCs of version `0.14.0`. 
 If possible, we provide backports of fixes that affect older EDC versions as well.
-To get the latest build of the connector registry, use `-SNAPSHOT` instead of the EDC label.
+To get the latest build of the connector registry, use the version `SNAPSHOT`.
 
 ## Configuration
 
