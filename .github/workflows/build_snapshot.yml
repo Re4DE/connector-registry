@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     
 env:
-  IMAGE_NAME: ghcr.io/Re4DE/connector-registry
+  IMAGE_NAME: ghcr.io/re4de/connector-registry
 
 jobs:
   Snapshot:
