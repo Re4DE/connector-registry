@@ -1,17 +1,17 @@
-name: "Snapshot Build and Publish"
+name: "Release Build and Publish"
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+-edc[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
     
 env:
   IMAGE_NAME: ghcr.io/re4de/connector-registry
 
 jobs:
-  Snapshot:
-    name: "Test, Build and Publish Docker Snapshot image"
+  Release:
+    name: "Test, Build and Publish Docker Release image"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,6 +25,6 @@ jobs:
           npm run lint
           npm test
       - name: Docker Build
-        run: docker build -t $IMAGE_NAME:SNAPSHOT .
+        run: docker build -t $IMAGE_NAME:${{ github.ref_name }} .
       - name: Docker Push
-        run: docker push $IMAGE_NAME:SNAPSHOT
+        run: docker push $IMAGE_NAME:${{ github.ref_name }}
