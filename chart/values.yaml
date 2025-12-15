@@ -16,10 +16,10 @@ install:
   mongodb: true
 
 global:
-  defaultStorageClass: harvester
+  defaultStorageClass: default
   secrets:
     mongo:
-      secretName: mongodb
+      secretName: mongodb-secret
       keys:
         - mongodb-root-password
         - mongodb-passwords
@@ -29,27 +29,22 @@ namespaceOverride: ""
 registry:
   unregisterTimeout: 60
   image:
-    repository: container-registry.gitlab.cc-asp.fraunhofer.de/future-energy-lab-testfeld/connector-registry
-    tag: 0.3.0
-    pullSecret: gitlab
+    repository: ghcr.io/re4de/connector-registry
+    tag: 1.0.0-edc0.14.0
   service:
     port: 3000
   ingress:
     enabled: true
-    host: registry-dena.services.iee.fraunhofer.de
+    host: changeme
     path: /api
   auth:
-    url: https://auth-dena.services.iee.fraunhofer.de
-    realm: dena-testfeld
-    clientId: connector-registry
-    existingSecret: registry-secret
+    apiKey: changeme
   database:
-    external: false
-    host: my.host
+    host: null
     port: 27017
     username: connector-registry
     dbName: registry
-    existingSecret: mongodb
+    existingSecret: mongodb-secret
 
 mongodb:
   image:
@@ -57,7 +52,7 @@ mongodb:
   useStatefulSet: true
   replicaSetHostnames: false
   auth:
-    existingSecret: mongodb
+    existingSecret: mongodb-secret
     usernames:
       - connector-registry
     databases: 

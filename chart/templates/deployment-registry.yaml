@@ -25,8 +25,6 @@ spec:
     metadata:
       labels: {{- include "common.labels" . | nindent 8 }}
     spec:
-      imagePullSecrets:
-        - name: {{ .Values.registry.image.pullSecret }}
       containers:
         - name: connector-registry
           image: {{ .Values.registry.image.repository }}:{{ .Values.registry.image.tag }}
@@ -34,19 +32,15 @@ spec:
           env:
             - name: PORT
               value: {{ .Values.registry.service.port | quote }}
-            - name: KEYCLOAK_URL
-              value: {{ .Values.registry.auth.url | quote }}
-            - name: KEYCLOAK_REALM
-              value: {{ .Values.registry.auth.realm | quote }}
-            - name: KEYCLOAK_CLIENT_ID
-              value: {{ .Values.registry.auth.clientId | quote }}
-            - name: KEYCLOAK_CLIENT_SECRET
+            - name: API_PREFIX
+              value: {{ .Values.registry.ingress.path | quote }}
+            - name: API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.registry.auth.existingSecret }}
-                  key: client-secret
+                  name: registry-secret
+                  key: api-key
             - name: MONGO_HOST
-              value: {{ ternary .Values.registry.database.host (printf "%s-mongodb" .Release.Name) .Values.registry.database.external }}
+              value: {{ ternary .Values.registry.database.host (printf "%s-mongodb" .Release.Name) (not .Values.install.mongodb) }}
             - name: MONGO_PORT
               value: {{ .Values.registry.database.port | quote }}
             - name: MONGO_USER
