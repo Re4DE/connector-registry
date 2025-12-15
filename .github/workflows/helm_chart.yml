@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  REPOSITORY: ghcr.io/re4de/connector-registry
+  REPOSITORY: ghcr.io/re4de
 
 jobs:
   Helm:
