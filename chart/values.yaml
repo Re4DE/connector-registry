@@ -28,6 +28,9 @@ registry:
     enabled: true
     host: changeme
     path: /api
+    tls:
+      enabled: false
+      issuer: cert-issuer
   auth:
     apiKey: changeme
   database:
