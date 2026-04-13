@@ -4,9 +4,9 @@
 
 ---
 
-This service provides a registry for registering connectors in a dataspace.
-Through this registration, other connectors can discover all participants in the dataspace.
-The registry also automatically unregisters all unreachable connectors after a configurable timeout.
+This service provides a Connector Registry for registering connectors in a dataspace.
+Through this registration, other Connectors can discover all participants in the dataspace.
+The Registry also automatically unregisters all unreachable Connectors after a configurable timeout.
 
 ## Versioning
 
@@ -77,18 +77,10 @@ $ helm install connector-registry -f overwrite.yaml . --namespace connector-regi
 
 If you have checked this repository freshly, start with `1.`, or jump directly to `3.`
 
-### 1. Database preparation
+### 1. Start environment from the connector repository
 
-The service expects a running `MongoDB` instance reachable under `http://localhost:27017` with an admin user `root` and the password `devpass`. 
-
-```bash
-$ docker volume create mongo-data
-$ docker run -d --name mongo -p 27017:27017 \
-    -e MONGO_INITDB_ROOT_USERNAME=root \
-    -e MONGO_INITDB_ROOT_PASSWORD=devpass \
-    --mount source=mongo-data,target=/data/db
-    mongo:7.0.11
-```
+As the Connector Registry cannot be used without a `MongoDB` database, there need to be a running instance of it.
+You can use the [local-dev](https://github.com/Re4DE/connector/blob/main/runtimes/local-dev/docker-env/src/main/docker/docker-compose.yaml) runtime from the connector repository for that.
 
 ### 2. Project preparations
 
