@@ -15,15 +15,6 @@
 install:
   mongodb: true
 
-global:
-  defaultStorageClass: default
-  secrets:
-    mongo:
-      secretName: mongodb-secret
-      keys:
-        - mongodb-root-password
-        - mongodb-passwords
-
 namespaceOverride: ""
 
 registry:
@@ -47,21 +38,16 @@ registry:
     existingSecret: mongodb-secret
 
 mongodb:
-  image:
-    repository: bitnamilegacy/mongodb
-  useStatefulSet: true
-  replicaSetHostnames: false
+  persistence:
+    storageClass: changeme
   auth:
     existingSecret: mongodb-secret
-    usernames:
-      - connector-registry
-    databases: 
-      - registry
-  replicaCount: 1
-  pdb:
-    create: false
-  persistence:
-    name: mongo-vol
-    resourcePolicy: keep
-  arbiter:
-    enabled: false
+    existingSecretPasswordKey: root-password
+  customUsers:
+    - name: connector-registry
+      database: registry
+      existingSecret: mongodb-secret
+      secretKeys:
+        name: name
+        database: database
+        password: password

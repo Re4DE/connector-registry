@@ -49,7 +49,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.registry.database.existingSecret }}
-                  key: {{ index .Values.global.secrets.mongo.keys 1 }}
+                  key: {{ (index .Values.mongodb.customUsers 0).secretKeys.password }}
             - name: MONGO_DB_NAME
               value: {{ .Values.registry.database.dbName | quote }}
             - name: REGISTRY_UNREGISTER_TIMEOUT
