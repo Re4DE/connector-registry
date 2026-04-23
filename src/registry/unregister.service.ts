@@ -78,7 +78,7 @@ export class UnregisterService
             this.logger.warn(
               `Remove connector ${con.name} because it was not reachable`,
             );
-            await this.registryService.unregisterConnector(con.participantId);
+            await this.registryService.unregisterConnector(con.id);
           } else {
             // Expected statuscode 405
             this.logger.log(`Connector ${con.name} is reachable`, err);

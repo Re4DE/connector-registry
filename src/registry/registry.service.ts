@@ -32,26 +32,24 @@ export class RegistryService {
     return new this.targetNodeModel(dto).save();
   }
 
-  public async getConnector(participantId: string): Promise<TargetNode> {
-    return this.targetNodeModel.findOne({ participantId }).exec();
+  public async getConnector(id: string): Promise<TargetNode> {
+    return this.targetNodeModel.findOne({ id }).exec();
   }
 
-  public async getAllConnectors(participantId: string): Promise<TargetNode[]> {
-    return this.targetNodeModel
-      .find({ participantId: { $ne: participantId } })
-      .exec();
+  public async getAllConnectors(id: string): Promise<TargetNode[]> {
+    return this.targetNodeModel.find({ id: { $ne: id } }).exec();
   }
 
   public async updateConnector(
-    participantId: string,
+    id: string,
     dto: UpdateConnectorDto,
   ): Promise<TargetNode> {
     return this.targetNodeModel
-      .findOneAndUpdate({ participantId }, dto, { returnOriginal: false })
+      .findOneAndUpdate({ id }, dto, { returnOriginal: false })
       .exec();
   }
 
-  public async unregisterConnector(participantId: string): Promise<TargetNode> {
-    return this.targetNodeModel.findOneAndDelete({ participantId }).exec();
+  public async unregisterConnector(id: string): Promise<TargetNode> {
+    return this.targetNodeModel.findOneAndDelete({ id }).exec();
   }
 }

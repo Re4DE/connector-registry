@@ -64,7 +64,7 @@ export class RegistryController {
   public async register(
     @Body() dto: RegisterConnectorDto,
   ): Promise<TargetNode> {
-    const doc = await this.registryService.getConnector(dto.participantId);
+    const doc = await this.registryService.getConnector(dto.id);
     if (doc) {
       throw new BadRequestException('Connector already registered');
     }
@@ -74,6 +74,7 @@ export class RegistryController {
 
   @ApiQuery({
     name: 'participantId',
+    required: false,
     description:
       'The participant id of the requesting connector, often this is a DIDWeb. If empty return all connectors',
   })
@@ -89,9 +90,9 @@ export class RegistryController {
   })
   @Get()
   public async findAll(
-    @Query('participantId') participantId: string = '',
+    @Query('participantId') id: string = '',
   ): Promise<TargetNode[]> {
-    return this.registryService.getAllConnectors(participantId);
+    return this.registryService.getAllConnectors(id);
   }
 
   @ApiBody({
@@ -119,14 +120,14 @@ export class RegistryController {
   })
   @Patch(':participantId')
   public async updateOne(
-    @Param('participantId') participantId: string,
+    @Param('participantId') id: string,
     @Body() dto: UpdateConnectorDto,
   ): Promise<TargetNode> {
-    const doc = await this.registryService.getConnector(participantId);
+    const doc = await this.registryService.getConnector(id);
     if (!doc) {
       throw new NotFoundException('Connector is not registered');
     }
 
-    return this.registryService.updateConnector(participantId, dto);
+    return this.registryService.updateConnector(id, dto);
   }
 }

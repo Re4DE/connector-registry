@@ -26,7 +26,7 @@ export class TargetNode {
     description:
       'The participant id of the requesting connector, often this is a DIDWeb',
   })
-  public readonly participantId: string;
+  public readonly id: string;
 
   @ApiProperty({
     example: 'https://my-con.net/api/v1/dsp',

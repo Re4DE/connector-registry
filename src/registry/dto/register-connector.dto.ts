@@ -24,7 +24,7 @@ export class RegisterConnectorDto {
   })
   @IsNotEmpty()
   @IsString()
-  public readonly participantId: string;
+  public readonly id: string;
 
   @ApiProperty({
     example: 'My-Connector',

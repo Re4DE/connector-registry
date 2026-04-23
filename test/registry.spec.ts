@@ -29,7 +29,7 @@ import { RegistryModule } from '../src/registry';
 const did = 'did:web:test.de:tester';
 
 const testCon = {
-  participantId: did,
+  id: did,
   name: 'Test Connector',
   url: 'http://localhost:8080/api/v1/dsp',
   supportedProtocols: ['dataspace-protocol-http'],
@@ -85,7 +85,7 @@ describe('Registry', () => {
         .expect(HttpStatus.CREATED);
       const data = res.body;
 
-      expect(data.participantId).toBe(did);
+      expect(data.id).toBe(did);
     },
     60 * 1000,
   );
