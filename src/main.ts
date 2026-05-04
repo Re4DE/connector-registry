@@ -36,7 +36,7 @@ async function bootstrap() {
     .setDescription(
       'Endpoints to register a new Connector in a data space, or to change the URL of a existing one.',
     )
-    .setVersion('1.0.0-edc0.14.0')
+    .setVersion('1.0.1-edc0.14.0')
     .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'api-key')
     .build();
   const swaggerDoc = SwaggerModule.createDocument(app, swagger);
