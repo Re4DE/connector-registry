@@ -53,9 +53,9 @@ export class UnregisterService
   }
 
   private async unregisterInactiveConnectors() {
-    this.logger.log('Start unregister check for connectors');
+    this.logger.log('Start unregister check for connectors.');
     const cons = await this.registryService.getAllConnectors('');
-    this.logger.log('Found ' + cons.length + ' connectors');
+    this.logger.log('Found ' + cons.length + ' connectors.');
     for (const con of cons) {
       try {
         this.logger.log(`Check connector ${con.name} at ${con.url}`);
@@ -76,14 +76,12 @@ export class UnregisterService
 
           if (isNotReachable || isUnexpectedStatus) {
             this.logger.warn(
-              `Remove connector ${con.name} because it was not reachable`,
+              `Remove connector ${con.name} because it was not reachable.`,
             );
             await this.registryService.unregisterConnector(con.id);
           } else {
             // Expected statuscode 405
-            this.logger.log(
-              `Connector ${con.name} is reachable but status was ${status} with message ${err.message}`,
-            );
+            this.logger.log(`Connector ${con.name} is reachable.`);
           }
         } else {
           // Not a axios error, still try to extract status
@@ -92,14 +90,14 @@ export class UnregisterService
           const isUnexpectedStatus = status && status !== 405;
           if (isUnexpectedStatus) {
             this.logger.warn(
-              `Remove connector ${con.name} because it was not reachable`,
+              `Remove connector ${con.name} because it was not reachable.`,
             );
             await this.registryService.unregisterConnector(con.id);
           }
 
           // Maybe unregister here as well
           this.logger.warn(
-            'Unknown error when contacting connector with status ${status} and data:',
+            `Unknown error when contacting connector with status ${status} and data:`,
             (err as any).data,
           );
         }
