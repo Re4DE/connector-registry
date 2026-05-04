@@ -81,11 +81,27 @@ export class UnregisterService
             await this.registryService.unregisterConnector(con.id);
           } else {
             // Expected statuscode 405
-            this.logger.log(`Connector ${con.name} is reachable`, err);
+            this.logger.log(
+              `Connector ${con.name} is reachable but status was ${status} with message ${err.message}`,
+            );
           }
         } else {
+          // Not a axios error, still try to extract status
+          const status = (err as any).status;
+          // All status codes except 405
+          const isUnexpectedStatus = status && status !== 405;
+          if (isUnexpectedStatus) {
+            this.logger.warn(
+              `Remove connector ${con.name} because it was not reachable`,
+            );
+            await this.registryService.unregisterConnector(con.id);
+          }
+
           // Maybe unregister here as well
-          this.logger.warn('Unknown error when contacting connector', err);
+          this.logger.warn(
+            'Unknown error when contacting connector with status ${status} and data:',
+            (err as any).data,
+          );
         }
       }
     }
