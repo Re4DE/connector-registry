@@ -19,18 +19,18 @@ To get the latest build of the connector registry, use the version `SNAPSHOT`.
 
 The service has the following configuration variables, which need to be set in production. For development, default values have already been defined.
 
-| Name                        | Default               | Description                                                                                                  |
-|-----------------------------|-----------------------|--------------------------------------------------------------------------------------------------------------|
-| NODE_ENV                    | development           | Determine which dependencies will be installed by npm. Options development/production                        |
-| PORT                        | 3000                  | The port on which this service will listen                                                                   |
-| API_PREFIX                  | api                   | A prefix that will be added to all endpoints                                                                 |
-| API_KEY                     | devpass               | The api key that need to be set to the 'x-api-key' header to access the API                                  |
-| MONGO_HOST                  | localhost             | The host name of the `MongoDB` instance                                                                      |
-| MONGO_PORT                  | 27017                 | The port of the `MongoDB` instance                                                                           |
-| MONGO_USER                  | root                  | The username of the admin account of the `MongoDB` instance                                                  |
-| MONGO_PASS                  | devpass               | The password of the admin account of the `MongoDB` instance                                                  |
-| MONGO_DB_NAME               | registry              | The name of the database to save registered connectors                                                       |
-| REGISTRY_UNREGISTER_TIMEOUT | 60                    | Time to wait until all registered connectors are checked to see whether they are still reachable, in seconds |
+| Name                        | Default     | Description                                                                                                  |
+|-----------------------------|-------------|--------------------------------------------------------------------------------------------------------------|
+| NODE_ENV                    | development | Determine which dependencies will be installed by npm. Options development/production                        |
+| PORT                        | 3000        | The port on which this service will listen                                                                   |
+| API_PREFIX                  | api         | A prefix that will be added to all endpoints                                                                 |
+| API_KEY                     | devpass     | The api key that need to be set to the 'x-api-key' header to access the API                                  |
+| MONGO_HOST                  | localhost   | The host name of the `MongoDB` instance                                                                      |
+| MONGO_PORT                  | 27017       | The port of the `MongoDB` instance                                                                           |
+| MONGO_USER                  | root        | The username of the admin account of the `MongoDB` instance                                                  |
+| MONGO_PASS                  | devpass     | The password of the admin account of the `MongoDB` instance                                                  |
+| MONGO_DB_NAME               | registry    | The name of the database to save registered connectors                                                       |
+| REGISTRY_UNREGISTER_TIMEOUT | 60          | Time to wait until all registered connectors are checked to see whether they are still reachable, in seconds |
 
 If you want to override variables locally, create a `.env` file and define the variables to override there.
 
