@@ -23,7 +23,7 @@ metadata:
     cert-manager.io/cluster-issuer: {{ .Values.registry.ingress.tls.issuer }}
   {{- end }}
 spec:
-  ingressClassName: {{ .Values.registry.ingress.className | default "nginx" }}
+  ingressClassName: {{ .Values.registry.ingress.className }}
   rules:
     - host: {{ .Values.registry.ingress.host }}
       http:

@@ -27,6 +27,7 @@ registry:
   ingress:
     enabled: true
     host: changeme
+    className: nginx
     path: /api
     tls:
       enabled: false
