@@ -26,8 +26,8 @@ registry:
     port: 3000
   ingress:
     enabled: true
-    host: changeme
     className: nginx
+    host: changeme
     path: /api
     tls:
       enabled: false
