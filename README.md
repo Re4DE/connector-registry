@@ -69,8 +69,7 @@ registry:
 ### 2. Deploy with Helm
 
 ```bash
-$ helm dependency update
-$ helm install connector-registry -f overwrite.yaml . --namespace connector-registry --create-namespace
+$ helm install connector-registry -f overwrite.yaml oci://ghcr.io/re4de/charts/connector-registry --version 1.0.1 --namespace connector-registry --create-namespace
 ```
 
 ## Local Development
