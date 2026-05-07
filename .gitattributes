@@ -1,0 +1,5 @@
+# All files are checked into the repo with LF
+* text=auto
+
+# Make sure all typescript files have LF as ending in working tree
+*.ts eol=lf
