@@ -27,11 +27,13 @@ Fields marked in the `Override` column must be set for production deployment.
 | registry.ingress.path                     | /api                             | API prefix path                                                                                        |          |
 | registry.ingress.tls.enabled              | false                            | Enables TLS on the ingress                                                                             |          |
 | registry.ingress.tls.issuer               | cert-issuer                      | The name of the cluster issuer used by the cert-manager to issue Certificates                          |          |
-| registry.auth.authKey                     | changeme                         | Keycloak client                                                                                        | X        |
+| registry.auth.authKey                     | changeme                         | The api key that need to be set to the 'x-api-key' header to access the API                            | X        |
+| registry.throttle.ttl                     | 60000                            | Time to life for throttle, in milliseconds. During this time are 'limit' many requests allowed         |          |
+| registry.throttle.limit                   | 20                               | Number of requests that are allowed in 'ttl'                                                           |          |
 | registry.database.host                    | null                             | Set the hostname of the `MongoDB`, only needed if `install.mongodb` is `false`                         |          |
 | registry.database.port                    | 27017                            | Set the port of the mongodb                                                                            |          |
 | registry.database.username                | connector-registry               | Set the username of the `MongoDB` user to authenticate on the database                                 |          |
 | registry.database.dbName                  | registry                         | Set name of the database to save data                                                                  |          |
 | registry.database.existingSecret          | mongodb                          | The name of the secret that holds the mongodb user password                                            |          |
 |                                           |                                  |                                                                                                        |          |
-| registry.mongodb.persistence.storageClass | changeme                         | The name of the storage class                                                                          | X        |
+| mongodb.persistence.storageClass          | changeme                         | The name of the storage class                                                                          | X        |

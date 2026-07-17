@@ -39,6 +39,10 @@ spec:
                 secretKeyRef:
                   name: registry-secret
                   key: api-key
+            - name: THROTTLE_TTL
+              value: {{ .Values.registry.throttle.ttl | quote }}
+            - name: THROTTLE_LIMIT
+              value: {{ .Values.registry.throttle.limit | quote }}
             - name: MONGO_HOST
               value: {{ ternary .Values.registry.database.host (printf "%s-mongodb" .Release.Name) (not .Values.install.mongodb) }}
             - name: MONGO_PORT

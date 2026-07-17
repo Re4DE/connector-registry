@@ -34,6 +34,9 @@ registry:
       issuer: cert-issuer
   auth:
     apiKey: changeme
+  throttle:
+    ttl: 60000
+    limit: 20
   database:
     host: null
     port: 27017
