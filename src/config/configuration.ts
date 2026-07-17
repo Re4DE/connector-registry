@@ -16,6 +16,10 @@ export default () => ({
   env: process.env.NODE_ENV || 'development',
   port: parseInt(process.env.PORT) || 3000,
   apiPrefix: process.env.API_PREFIX || 'api',
+  throttle: {
+    ttl: process.env.THROTTLE_TTL || 60 * 1000,
+    limit: process.env.THROTTLE_LIMIT || 20,
+  },
   auth: {
     apiKey: process.env.API_KEY || 'devpass',
   },

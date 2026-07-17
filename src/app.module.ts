@@ -36,12 +36,15 @@ import { AuthModule } from './auth';
     }),
     RegistryModule,
     ScheduleModule.forRoot(),
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60 * 1000, // Every 60 seconds
-        limit: 20, // Allow 20 requests
-      },
-    ]),
+    ThrottlerModule.forRootAsync({
+      useFactory: async (conf: ConfigurationService) => [
+        {
+          ttl: conf.throttleTTL,
+          limit: conf.throttleLimit,
+        },
+      ],
+      inject: [ConfigurationService],
+    }),
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },

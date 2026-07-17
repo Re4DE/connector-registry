@@ -30,6 +30,8 @@ The service has the following configuration variables, which need to be set in p
 | PORT                        | 3000        | The port on which this service will listen                                                                   |
 | API_PREFIX                  | api         | A prefix that will be added to all endpoints                                                                 |
 | API_KEY                     | devpass     | The api key that need to be set to the 'x-api-key' header to access the API                                  |
+| THROTTLE_TTL                | 60000       | Time to life for throttle, in milliseconds. During this time are 'limit' many requests allowed               |
+| THROTTLE_LIMIT              | 20          | Number of requests that are allowed in 'ttl'                                                                 |
 | MONGO_HOST                  | localhost   | The host name of the `MongoDB` instance                                                                      |
 | MONGO_PORT                  | 27017       | The port of the `MongoDB` instance                                                                           |
 | MONGO_USER                  | root        | The username of the admin account of the `MongoDB` instance                                                  |
@@ -69,6 +71,9 @@ registry:
   auth:
     apiKey: my-secret-pass-123!
 
+mongodb:
+  persistence:
+    storageClass: my-storage-class
 ```
 
 ### 2. Deploy with Helm

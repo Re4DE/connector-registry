@@ -35,6 +35,14 @@ export class ConfigurationService {
     return this.configService.get('auth.apiKey');
   }
 
+  get throttleTTL(): number {
+    return this.configService.get('throttle.ttl');
+  }
+
+  get throttleLimit(): number {
+    return this.configService.get('throttle.limit');
+  }
+
   get mongoUri(): string {
     const host = this.configService.get('database.host');
     const port = this.configService.get('database.port');
