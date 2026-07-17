@@ -12,7 +12,7 @@
 #
 #
 
-FROM node:24.11.1-alpine AS builder
+FROM node:24.18.0-alpine AS builder
 
 WORKDIR /usr/src/app
 
@@ -22,7 +22,7 @@ RUN npm ci
 RUN npm run build
 USER node
 
-FROM node:24.11.1-alpine
+FROM node:24.18.0-alpine
 
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
