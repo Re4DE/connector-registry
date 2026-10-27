@@ -14,7 +14,7 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class UpdateConnectorDto {
   @ApiProperty({
@@ -32,6 +32,7 @@ export class UpdateConnectorDto {
     description: 'Dataspace protocol endpoint of the connector',
   })
   @IsOptional()
+  @IsUrl()
   public readonly url: string;
 
   @ApiProperty({
