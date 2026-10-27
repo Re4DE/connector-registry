@@ -13,15 +13,15 @@
  */
 
 export default () => ({
-  env: process.env.NODE_ENV || 'development',
-  port: parseInt(process.env.PORT) || 3000,
-  apiPrefix: process.env.API_PREFIX || 'api',
+  env: process.env.NODE_ENV,
+  port: parseInt(process.env.PORT ?? ''),
+  apiPrefix: process.env.API_PREFIX,
   throttle: {
-    ttl: process.env.THROTTLE_TTL || 60 * 1000,
-    limit: process.env.THROTTLE_LIMIT || 20,
+    ttl: process.env.THROTTLE_TTL,
+    limit: process.env.THROTTLE_LIMIT,
   },
   auth: {
-    apiKey: process.env.API_KEY || 'devpass',
+    apiKey: process.env.API_KEY,
   },
   database: {
     host: process.env.MONGO_HOST || 'localhost',
@@ -31,6 +31,6 @@ export default () => ({
     dbName: process.env.MONGO_DB_NAME || 'registry',
   },
   registry: {
-    unregisterTimeout: process.env.REGISTRY_UNREGISTER_TIMEOUT || 60,
+    unregisterTimeout: process.env.REGISTRY_UNREGISTER_TIMEOUT,
   },
 });

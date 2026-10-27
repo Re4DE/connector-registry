@@ -20,11 +20,10 @@ import { Test } from '@nestjs/testing';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import request from 'supertest';
 
-import * as request from 'supertest';
-
-import { ConfigurationModule } from '../src/config';
-import { RegistryModule } from '../src/registry';
+import { ConfigurationModule } from '../src/config/configuration.module.js';
+import { RegistryModule } from '../src/registry/registry.module.js';
 
 const did = 'did:web:test.de:tester';
 

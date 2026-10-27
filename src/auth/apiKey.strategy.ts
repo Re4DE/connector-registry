@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 
 import Strategy from 'passport-headerapikey';
 
-import { AuthService } from './auth.service';
+import { AuthService } from './auth.service.js';
 
 @Injectable()
 export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
@@ -11,7 +11,7 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
     super({ header: 'x-api-key', prefix: '' }, false);
   }
 
-  public validate(apiKey: string, done: (error: Error, data) => {}): void {
+  public validate(apiKey: string, done: (error: Error | null, flag: boolean) => {}): void {
     if (this.authService.validateApiKey(apiKey)) {
       done(null, true);
     }

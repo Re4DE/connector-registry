@@ -24,8 +24,8 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import axios from 'axios';
 import { firstValueFrom } from 'rxjs';
 
-import { ConfigurationService } from '../config';
-import { RegistryService } from './registry.service';
+import { ConfigurationService } from '../config/configuration.service.js';
+import { RegistryService } from './registry.service.js';
 
 @Injectable()
 export class UnregisterService
@@ -50,6 +50,13 @@ export class UnregisterService
     );
     this.schedulerRegistry.addInterval(this.intervalName, interval);
     this.logger.log('Start connector watchdog');
+  }
+
+  public onApplicationShutdown(signal?: string): void {
+    if (this.schedulerRegistry.getIntervals().length > 0) {
+      this.schedulerRegistry.deleteInterval(this.intervalName);
+      this.logger.log(`Stop connector watchdog after ${signal}`);
+    }
   }
 
   private async unregisterInactiveConnectors() {
@@ -102,13 +109,6 @@ export class UnregisterService
           );
         }
       }
-    }
-  }
-
-  public onApplicationShutdown(signal?: string): void {
-    if (this.schedulerRegistry.getIntervals().length > 0) {
-      this.schedulerRegistry.deleteInterval(this.intervalName);
-      this.logger.log(`Stop connector watchdog after ${signal}`);
     }
   }
 }

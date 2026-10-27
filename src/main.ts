@@ -16,8 +16,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { AppModule } from './app.module';
-import { ConfigurationService } from './config';
+import { AppModule } from './app.module.js';
+import { ConfigurationService } from './config/configuration.service.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -36,7 +36,7 @@ async function bootstrap() {
     .setDescription(
       'Endpoints to register a new Connector in a data space, or to change the URL of a existing one.',
     )
-    .setVersion('1.0.1-edc0.14.0')
+    .setVersion('1.1.1-edc0.14.0')
     .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'api-key')
     .build();
   const swaggerDoc = SwaggerModule.createDocument(app, swagger);
@@ -44,4 +44,4 @@ async function bootstrap() {
 
   await app.listen(conf.port);
 }
-bootstrap();
+await bootstrap();

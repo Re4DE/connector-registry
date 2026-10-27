@@ -16,10 +16,11 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { RegistryService } from './registry.service';
-import { RegistryController } from './registry.controller';
-import { TargetNode, TargetNodeSchema } from './schema';
-import { UnregisterService } from './unregister.service';
+import { RegistryService } from './registry.service.js';
+import { RegistryController } from './registry.controller.js';
+import { UnregisterService } from './unregister.service.js';
+import { TargetNode } from './dao/target-node.dao.js';
+import { TargetNodeSchema } from './schema/target-node.schema.js';
 
 @Module({
   imports: [

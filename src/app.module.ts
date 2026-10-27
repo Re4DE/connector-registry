@@ -19,9 +19,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
-import { ConfigurationModule, ConfigurationService } from './config';
-import { RegistryModule } from './registry';
-import { AuthModule } from './auth';
+import { RegistryModule } from './registry/registry.module.js';
+import { AuthModule } from './auth/auth.module.js';
+import { ConfigurationModule } from './config/configuration.module.js';
+import { ConfigurationService } from './config/configuration.service.js';
 
 @Module({
   imports: [

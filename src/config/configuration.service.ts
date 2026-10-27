@@ -20,40 +20,40 @@ export class ConfigurationService {
   constructor(private configService: ConfigService) {}
 
   get env(): string {
-    return this.configService.get('env');
+    return this.configService.get('env', 'development');
   }
 
   get port(): number {
-    return this.configService.get('port');
+    return this.configService.get('port', 3000);
   }
 
   get apiPrefix(): string {
-    return this.configService.get('apiPrefix');
+    return this.configService.get('apiPrefix', 'api');
+  }
+  
+  get throttleTTL(): number {
+    return this.configService.get('throttle.ttl', 60 * 1000);
+  }
+  
+  get throttleLimit(): number {
+    return this.configService.get('throttle.limit', 20);
   }
 
   get apiKey(): string {
-    return this.configService.get('auth.apiKey');
-  }
-
-  get throttleTTL(): number {
-    return this.configService.get('throttle.ttl');
-  }
-
-  get throttleLimit(): number {
-    return this.configService.get('throttle.limit');
+    return this.configService.get('auth.apiKey', 'devpass');
   }
 
   get mongoUri(): string {
-    const host = this.configService.get('database.host');
-    const port = this.configService.get('database.port');
-    const username = this.configService.get('database.username');
-    const password = this.configService.get('database.password');
-    const dbName = this.configService.get('database.dbName');
+    const host = this.configService.get('database.host', 'localhost');
+    const port = this.configService.get('database.port', '27017');
+    const username = this.configService.get('database.username', 'root');
+    const password = this.configService.get('database.password', 'devpass');
+    const dbName = this.configService.get('database.dbName', 'registry');
 
     return `mongodb://${username}:${password}@${host}:${port}/${dbName}`;
   }
 
   get unregisterTimeout(): number {
-    return this.configService.get('registry.unregisterTimeout');
+    return this.configService.get('registry.unregisterTimeout', 60);
   }
 }

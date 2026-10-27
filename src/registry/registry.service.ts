@@ -12,13 +12,18 @@
  *
  */
 
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
 
-import { TargetNode } from './dao';
-import { RegisterConnectorDto, UpdateConnectorDto } from './dto';
+import { TargetNode } from './dao/target-node.dao.js';
+import { RegisterConnectorDto } from './dto/register-connector.dto.js';
+import { UpdateConnectorDto } from './dto/update-connector.dto.js';
 
 @Injectable()
 export class RegistryService {
@@ -29,11 +34,12 @@ export class RegistryService {
   public async registerConnector(
     dto: RegisterConnectorDto,
   ): Promise<TargetNode> {
-    return new this.targetNodeModel(dto).save();
-  }
+    const doc = await this.targetNodeModel.findOne({ id: dto.id }).exec();
+    if (doc) {
+      throw new BadRequestException('Connector already registered');
+    }
 
-  public async getConnector(id: string): Promise<TargetNode> {
-    return this.targetNodeModel.findOne({ id }).exec();
+    return new this.targetNodeModel(dto).save();
   }
 
   public async getAllConnectors(id: string): Promise<TargetNode[]> {
@@ -44,12 +50,22 @@ export class RegistryService {
     id: string,
     dto: UpdateConnectorDto,
   ): Promise<TargetNode> {
-    return this.targetNodeModel
-      .findOneAndUpdate({ id }, dto, { returnOriginal: false })
+    const doc = await this.targetNodeModel
+      .findOneAndUpdate({ id }, dto, { returnDocument: 'after' })
       .exec();
+    if (!doc) {
+      throw new NotFoundException('Connector is not registered');
+    }
+
+    return doc;
   }
 
   public async unregisterConnector(id: string): Promise<TargetNode> {
-    return this.targetNodeModel.findOneAndDelete({ id }).exec();
+    const doc = await this.targetNodeModel.findOneAndDelete({ id }).exec();
+    if (!doc) {
+      throw new NotFoundException('Connector is not registered');
+    }
+
+    return doc;
   }
 }

@@ -13,11 +13,9 @@
  */
 
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
@@ -32,9 +30,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { TargetNode } from './dao';
-import { RegisterConnectorDto, UpdateConnectorDto } from './dto';
-import { RegistryService } from './registry.service';
+import { TargetNode } from './dao/target-node.dao.js';
+import { RegistryService } from './registry.service.js';
+import { RegisterConnectorDto } from './dto/register-connector.dto.js';
+import { UpdateConnectorDto } from './dto/update-connector.dto.js';
 
 @ApiSecurity('api-key')
 @ApiTags('registry')
@@ -64,11 +63,6 @@ export class RegistryController {
   public async register(
     @Body() dto: RegisterConnectorDto,
   ): Promise<TargetNode> {
-    const doc = await this.registryService.getConnector(dto.id);
-    if (doc) {
-      throw new BadRequestException('Connector already registered');
-    }
-
     return this.registryService.registerConnector(dto);
   }
 
@@ -123,11 +117,6 @@ export class RegistryController {
     @Param('participantId') id: string,
     @Body() dto: UpdateConnectorDto,
   ): Promise<TargetNode> {
-    const doc = await this.registryService.getConnector(id);
-    if (!doc) {
-      throw new NotFoundException('Connector is not registered');
-    }
-
     return this.registryService.updateConnector(id, dto);
   }
 }
