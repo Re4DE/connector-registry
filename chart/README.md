@@ -19,7 +19,7 @@ Fields marked in the `Override` column must be set for production deployment.
 |                                           |                                  |                                                                                                        |          |
 | registry.unregisterTimeout                | 60                               | Time to wait until all registered connectors will be check whether thy are still reachable, in seconds |          |
 | registry.image.repository                 | ghcr.io/re4de/connector-registry | Repository URL of the Docker Image                                                                     |          |
-| registry.image.tag                        | 1.1.0-edc0.14.0                  | Tag of the Docker Image, use SNAPSHOT for latest version                                               |          |
+| registry.image.tag                        | 1.1.1-edc0.14.0                  | Tag of the Docker Image, use SNAPSHOT for latest version                                               |          |
 | registry.service.port                     | 3000                             | Port of the registry API                                                                               |          |
 | registry.ingress.enabled                  | true                             | Toggle the ingress rules                                                                               |          |
 | registry.ingress.className                | nginx                            | Set class name of the Ingress Controller                                                               |          |
@@ -27,9 +27,9 @@ Fields marked in the `Override` column must be set for production deployment.
 | registry.ingress.path                     | /api                             | API prefix path                                                                                        |          |
 | registry.ingress.tls.enabled              | false                            | Enables TLS on the ingress                                                                             |          |
 | registry.ingress.tls.issuer               | cert-issuer                      | The name of the cluster issuer used by the cert-manager to issue Certificates                          |          |
-| registry.auth.authKey                     | changeme                         | The api key that need to be set to the 'x-api-key' header to access the API                            | X        |
-| registry.throttle.ttl                     | 60000                            | Time to life for throttle, in milliseconds. During this time are 'limit' many requests allowed         |          |
-| registry.throttle.limit                   | 20                               | Number of requests that are allowed in 'ttl'                                                           |          |
+| registry.auth.authKey                     | changeme                         | The api key that need to be set to the `x-api-key` header to access the API                            | X        |
+| registry.throttle.ttl                     | 60000                            | Time to life for throttle, in milliseconds. During this time are `limit` many requests allowed         |          |
+| registry.throttle.limit                   | 20                               | Number of requests that are allowed in `ttl`                                                           |          |
 | registry.database.host                    | null                             | Set the hostname of the `MongoDB`, only needed if `install.mongodb` is `false`                         |          |
 | registry.database.port                    | 27017                            | Set the port of the mongodb                                                                            |          |
 | registry.database.username                | connector-registry               | Set the username of the `MongoDB` user to authenticate on the database                                 |          |
