@@ -15,18 +15,16 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthGuard } from '@nestjs/passport';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { RegistryModule } from './registry/registry.module.js';
-import { AuthModule } from './auth/auth.module.js';
 import { ConfigurationModule } from './config/configuration.module.js';
 import { ConfigurationService } from './config/configuration.service.js';
+import { ApiKeyAuthGuard } from './auth/api-key.guard.js';
 
 @Module({
   imports: [
-    AuthModule,
     ConfigurationModule,
     MongooseModule.forRootAsync({
       imports: [],
@@ -49,7 +47,7 @@ import { ConfigurationService } from './config/configuration.service.js';
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
-    { provide: APP_GUARD, useClass: AuthGuard('api-key') },
+    { provide: APP_GUARD, useClass: ApiKeyAuthGuard },
   ],
 })
 export class AppModule {}

@@ -39,6 +39,10 @@ export class ConfigurationService {
     return this.configService.get('throttle.limit', 20);
   }
 
+  get apiKeyHeaderName(): string {
+    return this.configService.get('auth.headerName', 'x-api-key');
+  }
+
   get apiKey(): string {
     return this.configService.get('auth.apiKey', 'devpass');
   }

@@ -15,6 +15,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+import { NestNodeApplication, NodeAdapter } from '@nestjs/platform-node';
 import { ScheduleModule } from '@nestjs/schedule';
 import { Test } from '@nestjs/testing';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -63,7 +64,7 @@ describe('Registry', () => {
       providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
     }).compile();
 
-    app = module.createNestApplication();
+    app = module.createNestApplication<NestNodeApplication>(new NodeAdapter());
     app.enableShutdownHooks();
     await app.init();
 

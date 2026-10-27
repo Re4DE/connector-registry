@@ -14,13 +14,14 @@
 
 export default () => ({
   env: process.env.NODE_ENV,
-  port: parseInt(process.env.PORT ?? ''),
+  port: parseInt(process.env.PORT ?? '') || 3000,
   apiPrefix: process.env.API_PREFIX,
   throttle: {
     ttl: process.env.THROTTLE_TTL,
     limit: process.env.THROTTLE_LIMIT,
   },
   auth: {
+    headerName: process.env.API_KEY_HEADER_NAME,
     apiKey: process.env.API_KEY,
   },
   database: {
